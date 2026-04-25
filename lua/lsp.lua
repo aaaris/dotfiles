@@ -8,7 +8,7 @@
 vim.pack.add({
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" }, -- 语法高亮和折叠
 })
-vim.lsp.enable({ "lua_ls", "stylua", "clangd", "basedpyright" })
+vim.lsp.enable({ "biome", "lua_ls", "stylua", "clangd", "basedpyright" })
 -- LspAttach: After an LSP Client performs "initialize" and attaches to a buffer.
 -- vim.api.nvim_create_autocmd("LspAttach", {
 --   callback = function(args)

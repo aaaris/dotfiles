@@ -23,7 +23,7 @@ vim.opt.signcolumn = "yes"    -- 永远显示 sign column（诊断标记）
 vim.opt.winborder = "rounded" -- 窗口边框样式
 vim.opt.signcolumn = "yes"
 vim.opt.showmatch = true
-vim.opt.cmdheight = 1
+-- vim.opt.cmdheight = 1
 vim.opt.pumheight = 10
 vim.opt.pumblend = 10
 vim.opt.winblend = 0
@@ -114,3 +114,62 @@ vim.keymap.set("n", "<leader>tl", function() openTerm("r") end, {
 --  term insert back to normal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
 vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
+
+
+
+-- 注册命令：:PackCleanPick
+vim.api.nvim_create_user_command("PackCleanPick", function()
+  -- 1. 获取【未激活/冗余】插件（核心逻辑）
+  local inactive_plugins = vim.iter(vim.pack.get())
+      :filter(function(p) return not p.active end)
+      :map(function(p)
+        return {
+          name = p.spec.name,
+          text = p.spec.name -- mini.pick 必须用 text 字段显示
+        }
+      end)
+      :totable()
+
+  -- 无插件直接退出
+  if #inactive_plugins == 0 then
+    vim.notify("✅ 无冗余插件可清理", vim.log.levels.INFO)
+    return
+  end
+  local ok, MiniPick = pcall(require, "mini.pick")
+  if not ok then
+    vim.notify("❌ 请先安装 mini.pick", vim.log.levels.ERROR)
+    return
+  end
+  -- 2. 启动 MiniPick（最新标准API，无全局变量、无nil风险）
+  MiniPick.start({
+    source = {
+      name = "冗余插件（标记删除）",
+      items = inactive_plugins,
+      -- 单选执行
+      choose = function(item)
+        vim.pack.del({ item.name })
+        vim.notify("🗑️ 删除: " .. item.name, vim.log.levels.SUCCESS)
+      end,
+      -- 多选执行（核心）
+      choose_marked = function(marked_items)
+        if #marked_items == 0 then
+          vim.notify("⚠️ 未选择任何插件", vim.log.levels.WARN)
+          return
+        end
+
+        local deleted = {}
+        for _, item in ipairs(marked_items) do
+          pcall(vim.pack.del, { item.name })
+          table.insert(deleted, item.name)
+        end
+
+        vim.notify(string.format("✅ 批量删除 %d 个插件:\n%s", #deleted, table.concat(deleted, ", ")), vim.log.levels.SUCCESS)
+      end,
+    },
+  })
+end, { desc = "mini.pick 可视化卸载冗余插件" })
+
+-- 可选：绑定快捷键 <leader>px 快速调用
+vim.keymap.set("n", "<leader>px", "<cmd>PackCleanPick<CR>", {
+  desc = "mini.pick 清理冗余插件"
+})
