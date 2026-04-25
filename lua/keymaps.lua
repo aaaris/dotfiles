@@ -5,10 +5,15 @@
 
 -- quick <Esc>
 vim.keymap.set({ "i" }, "jk", "<Esc>", { noremap = true, silent = true, nowait = true })
--- vim.keymap.set("t", "<C-;>", "<C-\\><C-n>", opts)
--- vim.keymap.set({ "i", "v", "t", "n" }, "<C-;>", "<Esc>", opts)
-vim.keymap.set("n", "<leader><leader>s", ":so<CR>",
-  { desc = "Reload the neovim config", noremap = true, nowait = true })
+
+-- -- neovim config quick open
+vim.keymap.set(
+	"n",
+	"<leader>C",
+	":e $MYVIMRC<CR>",
+	{ desc = "Edit neovim config", noremap = true, silent = true, nowait = true }
+)
+-- TODO: reload config
 
 -- 系统剪贴板
 -- vim.keymap.set({ "n", "v" }, "<leader>c", '"+y', { desc = "copy to system clipboard" })
@@ -37,19 +42,22 @@ vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true, nowait = true }
 -- 行移动
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down", noremap = true, silent = true, nowait = true })
 vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up", noremap = true, silent = true, nowait = true })
-vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv",
-  { desc = "Move selection down", noremap = true, silent = true, nowait = true })
-vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv",
-  { desc = "Move selection up", noremap = true, silent = true, nowait = true })
+vim.keymap.set(
+	"v",
+	"<A-j>",
+	":m '>+1<CR>gv=gv",
+	{ desc = "Move selection down", noremap = true, silent = true, nowait = true }
+)
+vim.keymap.set(
+	"v",
+	"<A-k>",
+	":m '<-2<CR>gv=gv",
+	{ desc = "Move selection up", noremap = true, silent = true, nowait = true }
+)
 -- 文件/插件快捷键
-vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<ESC>:write<CR>",
-  { desc = "save file", noremap = true, silent = true, nowait = true })
-vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float,
-  { desc = "diagnostic messages", noremap = true, silent = true, nowait = true })
--- 快速跳转诊断
-vim.keymap.set("n", "[d", function()
-  vim.diagnostic.jump({ wrap = true, count = -1 })
-end, { desc = "prev diagnostic", noremap = true, silent = true, nowait = true })
-vim.keymap.set("n", "]d", function()
-  vim.diagnostic.jump({ wrap = true, count = 1 })
-end, { desc = "next diagnostic", noremap = true, silent = true, nowait = true })
+vim.keymap.set(
+	{ "n", "i", "v" },
+	"<C-s>",
+	"<ESC>:w<CR>",
+	{ desc = "save file", noremap = true, silent = true, nowait = true }
+)

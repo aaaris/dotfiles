@@ -6,49 +6,44 @@
 -- 启动加载的插件 --
 ----------------------
 vim.pack.add({
-  { src = "https://github.com/nvim-treesitter/nvim-treesitter" }, -- 语法高亮和折叠
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" }, -- 语法高亮和折叠
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
 })
 vim.lsp.enable({ "biome", "lua_ls", "stylua", "clangd", "basedpyright" })
--- LspAttach: After an LSP Client performs "initialize" and attaches to a buffer.
--- vim.api.nvim_create_autocmd("LspAttach", {
---   callback = function(args)
---     local keymap = vim.keymap
---     local lsp = vim.lsp
---     local bufopts = { noremap = true, silent = true }
---   end,
--- })
---
 
+--  diagnostic
 local diagnostic_signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = "",
-  Info = "",
+	Error = " ",
+	Warn = " ",
+	Hint = "",
+	Info = "",
 }
-
 vim.diagnostic.config({
-  virtual_text = { prefix = "●", spacing = 4 },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
-      [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
-      [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
-      [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
-    },
-  },
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = {
-    border = "rounded",
-    source = "always",
-    header = "",
-    prefix = "",
-    focusable = false,
-    style = "minimal",
-  },
+	virtual_text = { prefix = "●", spacing = 4 },
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+			[vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+			[vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+			[vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+		},
+	},
+	severity_sort = true,
+	float = {
+		source = true,
+		focusable = false,
+	},
 })
-
+vim.keymap.set("n", "<leader>dd", function()
+	vim.diagnostic.open_float()
+end, { desc = "diagnostic messages", noremap = true, silent = true, nowait = true })
+-- 快速跳转诊断
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, wrap = true, count = -1 })
+end, { desc = "prev diagnostic", noremap = true, silent = true, nowait = true })
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, wrap = true, count = 1 })
+end, { desc = "next diagnostic", noremap = true, silent = true, nowait = true })
 
 -- LSP 快捷键
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition", noremap = true, silent = true })

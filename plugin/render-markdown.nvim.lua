@@ -14,4 +14,6 @@ require("render-markdown").setup({
 	},
 })
 
-vim.keymap.set("n", "<leader>m", ":lua require('render-markdown').toggle()<CR>", {})
+vim.keymap.set("n", "<leader>m", function()
+	require("render-markdown").toggle()
+end, { desc = "render current md file", noremap = true, silent = true })
