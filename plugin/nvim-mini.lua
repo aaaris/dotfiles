@@ -30,6 +30,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
           local height = math.floor(0.618 * vim.o.lines)
           local width = math.floor(0.618 * vim.o.columns)
           return {
+            border = 'rounded',
             anchor = "NW",
             height = height,
             width = width,
