@@ -21,7 +21,6 @@ vim.opt.scrolloff = 10        -- 上下保留 5 行作为缓冲
 
 vim.opt.signcolumn = "yes"    -- 永远显示 sign column（诊断标记）
 vim.opt.winborder = "rounded" -- 窗口边框样式
-vim.opt.signcolumn = "yes"
 vim.opt.showmatch = true
 vim.opt.cmdheight = 1
 vim.opt.pumheight = 10
@@ -67,11 +66,10 @@ vim.opt.encoding = "utf-8"
 -- optional for windows
 if vim.fn.has("win32") == 1 then
   -- 设置默认终端为 pwsh.exe (PowerShell 7)
-  vim.opt.shell = "pwsh.exe"
-  -- PowerShell 启动参数（无Logo、无配置文件、快速启动）
-  vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
-  vim.opt.shellquote = ""
-  vim.opt.shellxquote = ""
+  vim.o.shell = 'pwsh.exe'
+  vim.o.shellcmdflag = '-NoLogo -NoProfile'
+  vim.o.shellquote = ''
+  vim.o.shellxquote = ''
 end
 
 -- different position for term
@@ -114,7 +112,7 @@ end, {
 
 --  term insert back to normal
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
-vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
+-- vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- 注册命令：:PackCleanPick
 vim.api.nvim_create_user_command("PackCleanPick", function()
