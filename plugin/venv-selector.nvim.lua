@@ -22,7 +22,6 @@ require("venv-selector").setup({
   -- 与你的 mini.pick 完美兼容（默认使用 vim.ui.select）
   shell = {
     shell = "pwsh.exe",
-    shellcmdflag = "-Command",
   },
 })
 vim.keymap.set("n", "<leader>vs", ":VenvSelect<CR>", { desc = "Select Python virtualenv" })

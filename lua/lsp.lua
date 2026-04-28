@@ -9,7 +9,7 @@ vim.pack.add({
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" }, -- 语法高亮和折叠
   { src = "https://github.com/neovim/nvim-lspconfig" },
 })
-vim.lsp.enable({ "biome", "lua_ls", "stylua", "clangd", "basedpyright" })
+vim.lsp.enable({ "biome", "lua_ls", "basedpyright", "ruff" })
 
 require('nvim-treesitter').install({
   'python',
