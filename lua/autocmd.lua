@@ -10,6 +10,19 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
 })
 
+local auto_read_group = vim.api.nvim_create_augroup("AutoRead", { clear = true })
+
+-- 使用 :checktime 检查文件是否被外部修改
+vim.api.nvim_create_autocmd(
+  { "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" },
+  {
+    group = auto_read_group,
+    pattern = "*",
+    command = "if mode() != 'c' | checktime | endif",
+  }
+)
+
+
 -- 复制高亮提示
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "highlight copying text",
@@ -31,40 +44,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     -- 如果还想要状态栏透明，可加上
     vim.api.nvim_set_hl(0, 'StatusLine', { ctermbg = 'NONE', bg = 'NONE' })
     vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermbg = 'NONE', bg = 'NONE' })
-    vim.api.nvim_set_hl(0, 'WinSeparator', { ctermbg = 'NONE', bg = 'NONE', fg = '#444444' }) -- 分割线前景色可自行调整
+    vim.api.nvim_set_hl(0, 'WinSeparator', { ctermbg = 'NONE', bg = 'NONE', fg = '#111111' }) -- 分割线前景色可自行调整
     vim.api.nvim_set_hl(0, 'StatusLine', { ctermbg = 'NONE', bg = 'NONE' })
     vim.api.nvim_set_hl(0, 'StatusLineNC', { ctermbg = 'NONE', bg = 'NONE' })
   end,
 })
--- return to last cursor position
--- vim.api.nvim_create_autocmd("BufReadPost", {
---   group = augroup,
---   desc = "Restore last cursor position",
---   callback = function()
---     if vim.o.diff then -- except in diff mode
---       return
---     end
---
---     local last_pos = vim.api.nvim_buf_get_mark(0, '"') -- {line, col}
---     local last_line = vim.api.nvim_buf_line_count(0)
---
---     local row = last_pos[1]
---     if row < 1 or row > last_line then
---       return
---     end
---
---     pcall(vim.api.nvim_win_set_cursor, 0, last_pos)
---   end,
--- })
---
-
--- wrap, linebreak and spellcheck on markdown and text files
--- vim.api.nvim_create_autocmd("FileType", {
---   group = augroup,
---   pattern = { "markdown", "text", "gitcommit" },
---   callback = function()
---     vim.opt_local.wrap = true
---     vim.opt_local.linebreak = true
---     vim.opt_local.spell = true
---   end,
--- })
