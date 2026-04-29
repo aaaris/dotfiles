@@ -66,10 +66,11 @@ vim.opt.encoding = "utf-8"
 -- optional for windows
 if vim.fn.has("win32") == 1 then
   -- 设置默认终端为 pwsh.exe (PowerShell 7)
-  vim.o.shell = 'pwsh.exe'
-  vim.o.shellcmdflag = '-NoLogo -NoProfile'
-  vim.o.shellquote = ''
-  vim.o.shellxquote = ''
+  vim.o.shell = "pwsh.exe"
+  vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
+  vim.o.shellquote = ""
+  vim.o.shellxquote = ""
+  vim.o.shelltemp = false
 end
 
 -- different position for term
@@ -111,7 +112,7 @@ end, {
 })
 
 --  term insert back to normal
-vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
+vim.keymap.set("t", "<A-q>", "<C-\\><C-n>", { noremap = true, silent = true })
 -- vim.keymap.set("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- 注册命令：:PackCleanPick

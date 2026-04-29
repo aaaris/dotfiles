@@ -13,6 +13,10 @@
       "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "claude-code": {
+      "rev": "55c0cb59828fbc3bec744288286a46f5d5750b83",
+      "src": "https://github.com/greggh/claude-code.nvim"
+    },
     "flash.nvim": {
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
       "src": "https://github.com/folke/flash.nvim"
@@ -76,6 +80,10 @@
     "telescope.nvim": {
       "rev": "506338434fec5ad19cb1f8d45bf92d66c4917393",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
+    },
+    "toggleterm.nvim": {
+      "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
+      "src": "https://github.com/akinsho/toggleterm.nvim"
     },
     "venv-selector.nvim": {
       "rev": "bcb2f58533c59b01565285eba49693f00bc460f5",

@@ -16,6 +16,7 @@ require('nvim-treesitter').install({
   'lua',
   'json',
 }):wait(300000)
+
 --  diagnostic
 local diagnostic_signs = {
   Error = " ",
@@ -55,10 +56,14 @@ vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition", n
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration", noremap = true, silent = true })
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation", noremap = true, silent = true })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Find references", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>nn", vim.lsp.buf.rename, { desc = "Rename symbol", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>cn", vim.lsp.buf.rename, { desc = "Rename symbol", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "LSP code action", noremap = true, silent = true })
-
--- auto format by <C-s>
--- vim.keymap.set("n", "<leader>F", function()
---   vim.lsp.buf.format()
--- end, { desc = "format code style", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>co", function()
+  vim.lsp.buf.code_action({
+    apply = false,
+    context = {
+      only = { "source.organizeImports" },
+      diagnostics = {},
+    }
+  })
+end, { desc = "LSP organize imports ", noremap = true, silent = true })
